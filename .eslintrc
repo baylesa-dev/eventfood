@@ -1,0 +1,112 @@
+{
+    "plugins": [
+        "react",
+        "react-hooks",
+        "jsx-a11y",
+        "import",
+        "@typescript-eslint",
+        "formatjs"
+    ],
+    "extends": [
+        "next/core-web-vitals",
+        "airbnb",
+        "airbnb/hooks",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        },
+        "import/resolver": {
+            "typescript": {
+                "project": ["./tsconfig.json"]
+            }
+        }
+    },
+    "rules": {
+        "react/jsx-wrap-multilines": ["error", { "declaration": false }],
+        "react/prop-types": 0,
+        "react/jsx-indent": 0,
+        "react/jsx-indent-props": 0,
+        "react/jsx-closing-bracket-location": 0,
+        "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+        "react/jsx-curly-newline": 0,
+        "react/jsx-props-no-spreading": 0,
+        "react/style-prop-object": 0,
+        "react/jsx-fragments": 0,
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "off",
+        "react/jsx-one-expression-per-line": 0,
+        "react/no-unused-prop-types": 0,
+        "react/destructuring-assignment": 0,
+        "react/require-default-props": 0,
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "@typescript-eslint/no-namespace": 0,
+        "@typescript-eslint/no-use-before-define": 0,
+        "@typescript-eslint/ban-ts-comment": [
+            "error",
+            { "ts-ignore": "allow-with-description" }
+        ],
+        "no-inner-declarations": 0,
+        "no-nested-ternary": 0,
+        "no-unneeded-ternary": 1,
+        "no-use-before-define": 0,
+        "formatjs/no-offset": "error",
+        "import/extensions": ["error", "never", { "json": "ignore-packages" }],
+        "import/no-cycle": 0,
+        "no-param-reassign": 0,
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": [
+                    "**/*.test.*",
+                    "**/*.spec.*",
+                    "setupTests.js",
+                    "utils/**"
+                ]
+            }
+        ],
+        "import/prefer-default-export": 0,
+        "import/order": [
+            "error",
+            {
+                "newlines-between": "always",
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                },
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index",
+                    "object"
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "react",
+                        "group": "builtin",
+                        "position": "before"
+                    },
+                    {
+                        "pattern": "services/*",
+                        "group": "internal",
+                        "position": "before"
+                    }
+                ],
+                "pathGroupsExcludedImportTypes": ["builtin"]
+            }
+        ]
+    }
+}
