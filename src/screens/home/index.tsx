@@ -3,7 +3,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import TabPanel from '@mui/lab/TabPanel';
 import InputBase from '@mui/material/InputBase';
-import { useIntl, defineMessage, FormattedNumber } from 'react-intl';
+import { useIntl, defineMessage, FormattedNumber, FormattedMessage } from 'react-intl';
 import { useQuery } from 'react-query';
 
 import fetchProducts from 'services/products';
@@ -61,9 +61,17 @@ export default function HomeScreen(): ReactElement {
                             {products.map((p) => (
                                 <S.ProductCard
                                     key={p.articleid}
+                                    disabled={p.quantity === 0}
                                     onClick={() => handleProductClick(p)}>
                                     <S.ProductDetails>
-                                        <S.ProductName>{p.name}</S.ProductName>
+                                        <S.ProductName>
+                                            {p.name}
+                                            {p.quantity === 0 &&
+                                                <S.ProductSoldOut>
+                                                    <FormattedMessage defaultMessage="Épuisé" />
+                                                </S.ProductSoldOut>
+                                            }
+                                        </S.ProductName>
                                         <S.ProductPrice>
                                             <FormattedNumber
                                                 value={p.price}

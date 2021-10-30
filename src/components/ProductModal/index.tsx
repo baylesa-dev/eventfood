@@ -36,16 +36,12 @@ export default function ProductModal({
     }
 
     useEffect(() => {
-        setQuantity(1)
-    }, [])
+        setQuantity(product && product.quantity > 0 ? 1 : 0)
+    }, [product])
 
     useEffect(() => {
-        setFinalPrice(product ? product.price * product.quantity : 0);
-    }, [product]);
-
-    useEffect(() => {
-        setFinalPrice((product?.price || 0) * quantity)
-    }, [quantity])
+        setFinalPrice(product ? product.price * quantity : 0);
+    }, [product, quantity]);
 
     if (!product) {
         return <Modal {...modalProps} />
@@ -100,7 +96,13 @@ export default function ProductModal({
                     sx={{ mt: 3, color: 'white' }}
                     onClick={() => handleAddToCart()}>
                     <FormattedMessage
-                        defaultMessage="Ajouter au panier"
+                        defaultMessage="Ajouter au panier ({price})"
+                        values={{
+                            price: intl.formatNumber(finalPrice, {
+                                style: 'currency',
+                                currency: 'EUR',
+                            }),
+                        }}
                     />
                 </Button>
             </Stack>
