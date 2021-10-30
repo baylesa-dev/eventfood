@@ -197,7 +197,7 @@ export default function Admin(): ReactElement {
                 justifyContent="space-between"
                 alignItems="stretch"
                 spacing={2}
-                sx={{ mt: 2, mb: 10, overflow: 'auto' }}
+                sx={{ mt: 2, mb: 10, overflow: 'auto', p: 1 }}
             >
                 <OrdersList title="Commandes non-payées"
                     orders={initial}
