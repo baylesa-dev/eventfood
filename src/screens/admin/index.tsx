@@ -1,24 +1,36 @@
 /* eslint-disable react/no-array-index-key */
 import { ReactElement, useEffect, useState } from "react";
 
-import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from "@mui/material";
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import { FormattedNumber } from "react-intl";
 import { useMutation, useQuery } from "react-query";
 
 
+import AdminAppbar from "components/AdminAppbar";
+import useAuthentication from "hooks/useAuthentication";
 import getOrders from "services/orders/getOrders";
 import { setOrderDelivered, setOrderPaid } from "services/orders/updateOrder";
 
 import * as S from './styles'
 
+type OrdersListProps = {
+    title: string;
+    orders: readonly AdminOrder[];
+    handleCheck: (value: AdminOrder) => void;
+    checked: readonly AdminOrder[];
+}
+
+type OrersListControlProps = {
+    leftDisabled: boolean;
+    rightDisabled: boolean;
+    handleLeftToRight: () => void
+    handleRightToLeft: () => void
+}
 
 function not(a: readonly AdminOrder[], b: readonly AdminOrder[]) {
     return a.filter((value) => b.findIndex(({ id }) => id === value.id) === -1);
@@ -26,6 +38,59 @@ function not(a: readonly AdminOrder[], b: readonly AdminOrder[]) {
 
 function intersection(a: readonly AdminOrder[], b: readonly AdminOrder[]) {
     return a.filter((value) => b.findIndex(({ id }) => id === value.id) !== -1);
+}
+
+function OrdersListControl({ leftDisabled, rightDisabled, handleLeftToRight, handleRightToLeft }: OrersListControlProps): ReactElement {
+    return (
+        <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ width: '5%' }}>
+            <Button
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                disabled={leftDisabled}
+                onClick={handleLeftToRight}
+            >
+                &gt;
+            </Button>
+            <Button
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                disabled={rightDisabled}
+                onClick={handleRightToLeft}
+            >
+                &lt;
+            </Button>
+        </Grid>
+    )
+}
+
+function OrdersList({ title, orders, handleCheck, checked }: OrdersListProps): ReactElement {
+    return (
+        <Paper sx={{ width: '100%', pl: 1, pr: 1, overflow: 'auto' }}>
+            <Stack>
+                <S.StackHeading>{title}</S.StackHeading>
+                {orders.map((value) => (
+                    <S.OrderCard key={value.id}>
+                        <S.OrderCardDetails>
+                            <S.OrderCardInfo>Commande n°{value.id}</S.OrderCardInfo>
+                            <S.OrderCardProductsList>
+                                {value.articles?.map((article, index) => <S.OrderCardProductItem key={`${value.id}-${article}-${index}`}><b>1x</b> {article}</S.OrderCardProductItem>)}
+                            </S.OrderCardProductsList>
+                            <S.Divider />
+                            <S.OrderCardInfo total red={title === "Commandes non-payées"}>
+                                Total:{' '}
+                                <S.OrderCardInfoPrice>
+                                    <FormattedNumber value={value.total} style="currency" currency="EUR" />
+                                </S.OrderCardInfoPrice>
+                            </S.OrderCardInfo>
+                        </S.OrderCardDetails>
+                        <Checkbox checked={checked.findIndex(({ id }) => id === value.id) !== -1} onChange={() => handleCheck(value)} />
+                    </S.OrderCard>
+                ))}
+            </Stack>
+        </Paper>
+    )
 }
 
 export default function Admin(): ReactElement {
@@ -42,6 +107,8 @@ export default function Admin(): ReactElement {
     const initialChecked = intersection(checked, initial)
     const paidChecked = intersection(checked, paid)
     const deliveredChecked = intersection(checked, delivered)
+
+    useAuthentication({ redirectTo: "/admin/login" })
 
     const handleCheck = (value: AdminOrder) => {
         const currentIndex = checked.findIndex(({ id }) => value.id === id)
@@ -123,27 +190,7 @@ export default function Admin(): ReactElement {
 
     return (
         <Box sx={{ flexGrow: 1, height: '100%' }}>
-            <AppBar position="static" color="secondary">
-                <Toolbar>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                    >
-                        EventsFood
-                    </Typography>
-                    <S.Search>
-                        <S.SearchIconWrapper>
-                            <SearchIcon />
-                        </S.SearchIconWrapper>
-                        <S.StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </S.Search>
-                </Toolbar>
-            </AppBar>
+            <AdminAppbar />
 
             <Stack
                 direction="row"
@@ -152,104 +199,35 @@ export default function Admin(): ReactElement {
                 spacing={2}
                 sx={{ mt: 2, mb: 10, overflow: 'auto' }}
             >
-                <Paper sx={{ width: '100%', pl: 1, pr: 1, overflow: 'auto' }}>
-                    <Stack>
-                        <S.StackHeading>Commandes non-payées</S.StackHeading>
-                        {initial.map((value) => (
-                            <S.OrderCard key={value.id}>
-                                <S.OrderCardDetails>
-                                    <S.OrderCardInfo>Commande n°{value.id}</S.OrderCardInfo>
-                                    <S.OrderCardInfo>TOTAL {value.total} €</S.OrderCardInfo>
+                <OrdersList title="Commandes non-payées"
+                    orders={initial}
+                    checked={checked}
+                    handleCheck={handleCheck}
+                />
 
-                                    <S.OrderCardProductsList>
-                                        {value.articles?.map((article, index) => <S.OrderCardProductItem key={`${value.id}-${article}-${index}`}><b>1x</b> {article}</S.OrderCardProductItem>)}
-                                    </S.OrderCardProductsList>
-                                </S.OrderCardDetails>
-                                <Checkbox checked={checked.findIndex(({ id }) => id === value.id) !== -1} onChange={() => handleCheck(value)} />
-                            </S.OrderCard>
-                        ))}
-                    </Stack>
-                </Paper>
+                <OrdersListControl leftDisabled={initialChecked.length === 0}
+                    rightDisabled={paidChecked.length === 0}
+                    handleLeftToRight={handleInitialToPaid}
+                    handleRightToLeft={handlePaidToInitial}
+                />
 
-                <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ width: '5%' }}>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        disabled={initialChecked.length === 0}
-                        onClick={handleInitialToPaid}
-                    >
-                        &gt;
-                    </Button>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        disabled={paidChecked.length === 0}
-                        onClick={handlePaidToInitial}
-                    >
-                        &lt;
-                    </Button>
-                </Grid>
+                <OrdersList title="Commandes non-servies"
+                    orders={paid}
+                    checked={checked}
+                    handleCheck={handleCheck}
+                />
 
-                <Paper sx={{ width: '100%', pl: 1, pr: 1, overflow: 'auto' }}>
-                    <Stack>
-                        <S.StackHeading>Commandes non-servies</S.StackHeading>
+                <OrdersListControl leftDisabled={paidChecked.length === 0}
+                    rightDisabled={deliveredChecked.length === 0}
+                    handleLeftToRight={handlePaidToDelivered}
+                    handleRightToLeft={handleDeliveredToPaid}
+                />
 
-                        {paid.map((value) => (
-                            <S.OrderCard key={value.id}>
-                                <S.OrderCardDetails>
-                                    <S.OrderCardInfo>Commande n°{value.id}</S.OrderCardInfo>
-
-                                    <S.OrderCardProductsList>
-                                        {value.articles?.map((article, index) => <S.OrderCardProductItem key={`${value.id}-${article}-${index}`}><b>1x</b> {article}</S.OrderCardProductItem>)}
-                                    </S.OrderCardProductsList>
-                                </S.OrderCardDetails>
-                                <Checkbox checked={checked.findIndex(({ id }) => id === value.id) !== -1} onChange={() => handleCheck(value)} />
-                            </S.OrderCard>
-                        ))}
-                    </Stack>
-                </Paper>
-
-                <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ width: '5%' }}>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        disabled={paidChecked.length === 0}
-                        onClick={handlePaidToDelivered}
-                    >
-                        &gt;
-                    </Button>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        disabled={deliveredChecked.length === 0}
-                        onClick={handleDeliveredToPaid}
-                    >
-                        &lt;
-                    </Button>
-                </Grid>
-
-                <Paper sx={{ width: '100%', pl: 1, pr: 1, overflow: 'auto' }}>
-                    <Stack>
-                        <S.StackHeading>Commandes servies</S.StackHeading>
-
-                        {delivered.map((value) => (
-                            <S.OrderCard key={value.id}>
-                                <S.OrderCardDetails>
-                                    <S.OrderCardInfo>Commande n°{value.id}</S.OrderCardInfo>
-
-                                    <S.OrderCardProductsList>
-                                        {value.articles?.map((article, index) => <S.OrderCardProductItem key={`${value.id}-${article}-${index}`}><b>1x</b> {article}</S.OrderCardProductItem>)}
-                                    </S.OrderCardProductsList>
-                                </S.OrderCardDetails>
-                                <Checkbox checked={checked.findIndex(({ id }) => id === value.id) !== -1} onChange={() => handleCheck(value)} />
-                            </S.OrderCard>
-                        ))}
-                    </Stack>
-                </Paper>
+                <OrdersList title="Commandes servies"
+                    orders={delivered}
+                    checked={checked}
+                    handleCheck={handleCheck}
+                />
             </Stack>
         </Box>
     )

@@ -3,15 +3,18 @@ import axios from "axios";
 import { BASE_URL } from "services";
 
 export function setOrderPaid(id: number) {
-    // @ts-ignore
-    var s = localStorage.getItem('secret');
-    // @ts-ignore
-    return axios.post(`${BASE_URL}/orders/${id}/isPaid`, {}, { headers: { 'Authorization': s } })
+    let secret = "";
+    if (typeof window !== "undefined") {
+        secret = localStorage.getItem('secret') || ''
+    }
+    return axios.post(`${BASE_URL}/orders/${id}/isPaid`, {}, { headers: { 'Authorization': secret } })
 }
 
 export function setOrderDelivered(id: number) {
-    // @ts-ignore
-    var s = localStorage.getItem('secret');
-    // @ts-ignore
-    return axios.post(`${BASE_URL}/orders/${id}/isDelivered`, {}, { headers: { 'Authorization': s } })
+    let secret = "";
+    if (typeof window !== "undefined") {
+        secret = localStorage.getItem('secret') || ''
+    }
+
+    return axios.post(`${BASE_URL}/orders/${id}/isDelivered`, {}, { headers: { 'Authorization': secret } })
 }

@@ -5,7 +5,7 @@ import { initializeStore, RootState } from 'store';
 export default function useStore(
     initialState?: RootState
 ): ReturnType<typeof initializeStore> {
-    // @ts-ignore
+    // @ts-ignore - bad typing
     const store = useMemo(() => initializeStore(initialState), [initialState]);
     return store;
 }
