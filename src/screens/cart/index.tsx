@@ -3,8 +3,10 @@ import { Fragment, MouseEvent, ReactElement, useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
+import { useRouter } from "next/router";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation } from "react-query";
 
@@ -20,6 +22,7 @@ import * as S from './styles'
 
 export default function CartScreen(): ReactElement {
     const intl = useIntl()
+    const router = useRouter()
     const dispatch = useAppDispatch()
     const { elements } = useAppSelector((state) => state.cart)
     const mutation = useMutation(postOrder)
@@ -47,6 +50,7 @@ export default function CartScreen(): ReactElement {
             const { data: id } = await mutation.mutateAsync({ products: elements })
             dispatch(addNewOrder({ id: id as number, products: elements }))
             dispatch(emptyCart())
+            router.push('/past-orders')
         } catch (error) {
             setMutationError(true)
 
@@ -115,9 +119,7 @@ export default function CartScreen(): ReactElement {
                         sx={{ color: "white" }}
                         disabled={elements.length === 0}
                         onClick={handleOrdering}>
-                        <FormattedMessage
-                            defaultMessage="Passer commande"
-                        />
+                        {mutation.isLoading ? <CircularProgress /> : <FormattedMessage defaultMessage="Passer commande" />}
                     </Button>
 
                     {elements.length > 0 &&

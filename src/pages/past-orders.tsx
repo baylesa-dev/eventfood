@@ -1,7 +1,3 @@
-import { ReactElement } from 'react';
+import PastOrders from 'screens/pastOrders'
 
-import Layout from 'components/Layout';
-
-export default function Orders(): ReactElement {
-    return <Layout>orders</Layout>;
-}
+export default PastOrders

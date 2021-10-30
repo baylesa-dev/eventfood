@@ -3,9 +3,8 @@ import { ReactElement, useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import TabPanel from '@mui/lab/TabPanel';
 import InputBase from '@mui/material/InputBase';
-import { GetServerSideProps } from 'next';
 import { useIntl, defineMessage, FormattedNumber } from 'react-intl';
-import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
 import fetchProducts from 'services/products';
 
@@ -14,18 +13,6 @@ import ProductModal from 'components/ProductModal';
 import Tabs from 'components/Tabs';
 
 import * as S from './styles';
-
-const queryClient = new QueryClient()
-
-export const getServerSideProps: GetServerSideProps = async () => {
-    await queryClient.prefetchQuery("products", fetchProducts);
-
-    return {
-        props: {
-            dehydratedState: dehydrate(queryClient),
-        },
-    };
-}
 
 export default function HomeScreen(): ReactElement {
     const intl = useIntl();
