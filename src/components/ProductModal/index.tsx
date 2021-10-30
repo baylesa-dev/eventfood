@@ -100,13 +100,7 @@ export default function ProductModal({
                     sx={{ mt: 3, color: 'white' }}
                     onClick={() => handleAddToCart()}>
                     <FormattedMessage
-                        defaultMessage="Ajouter au panier ({price})"
-                        values={{
-                            price: intl.formatNumber(finalPrice, {
-                                style: 'currency',
-                                currency: 'EUR',
-                            }),
-                        }}
+                        defaultMessage="Ajouter au panier"
                     />
                 </Button>
             </Stack>
