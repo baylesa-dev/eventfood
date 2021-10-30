@@ -1,0 +1,12 @@
+next.config.js
+.eslintrc
+node_modules
+__tests__
+__snapshots__
+__mocks__
+.next
+.vscode
+config
+public
+jest.config.js
+dist

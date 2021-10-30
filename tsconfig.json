@@ -16,7 +16,8 @@
         "baseUrl": "./src",
         "paths": {
             "*": ["*"],
-            "test-utils": ["../utils/test-utils.tsx"]
+            "test-utils": ["../utils/test-utils.tsx"],
+            "@mui/styled-engine": ["../node_modules/@mui/styled-engine-sc"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

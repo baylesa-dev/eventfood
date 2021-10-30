@@ -3,6 +3,8 @@ import component from './component';
 import { GlobalStyle } from './GlobalStyle';
 import tokens from './tokens';
 
+export { default as materialTheme } from './material-theme';
+
 // @ts-ignore - bullshit
 export default {
     GlobalStyle,

@@ -1,0 +1,110 @@
+{
+    "categories": [
+        {
+            "name": "Snacks",
+            "products": [
+                {
+                    "name": "Pringles Original",
+                    "image": "https://d1ralsognjng37.cloudfront.net/f1da8630-60d0-4a95-945b-4b0659d3ff85.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Pringles Paprika",
+                    "image": "https://d1ralsognjng37.cloudfront.net/cf0be86f-a0ec-4b62-ac46-1beb0d3c61d4.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Pringles Oignon",
+                    "image": "https://d1ralsognjng37.cloudfront.net/bfb95ede-129e-468e-8c42-c6f9fd69487c.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Chipster",
+                    "image": "https://d1ralsognjng37.cloudfront.net/4bda5460-b498-4969-9d0a-ad5113548e27.jpeg",
+                    "price": 2.9,
+                    "options": [
+                        {
+                            "name": "Quantité",
+                            "type": "unique",
+                            "choices": [
+                                { "label": "100g" },
+                                { "label": "250g", "extraPrice": 2.5 }
+                            ]
+                        },
+                        {
+                            "name": "Saveur",
+                            "type": "multiple",
+                            "choices": [
+                                { "label": "Rouge" },
+                                { "label": "Bleu" },
+                                { "label": "Vert" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Curly Club",
+                    "image": "https://d1ralsognjng37.cloudfront.net/4dacaa05-6ab9-4291-9978-5808fbd3013e.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Lays Nature",
+                    "image": "https://d1ralsognjng37.cloudfront.net/e05f5d73-737e-4cfd-a4db-22251c3d2874.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Lays Barbecue",
+                    "image": "https://d1ralsognjng37.cloudfront.net/43a4866f-b6a4-4913-882a-7a793b9df7b0.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Lays Spicy",
+                    "image": "https://d1ralsognjng37.cloudfront.net/f77bb8a7-ea33-46be-a272-907f2cae4145.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Noix de cajou grillé salé",
+                    "image": "https://d1ralsognjng37.cloudfront.net/1cf0b0f3-0a38-4b08-b38a-6868a1531f8f.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Mini-pizza Belin",
+                    "image": "https://d1ralsognjng37.cloudfront.net/273a0194-e15d-437d-86c4-e2f181222851.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Les tucs",
+                    "image": "https://d1ralsognjng37.cloudfront.net/aaf60e11-cdc8-4f5c-b0f3-609790b08fc6.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Curly donuts",
+                    "image": "https://d1ralsognjng37.cloudfront.net/0ac19f56-f7d0-4c99-99de-4d1ff216bf49.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Twinuts",
+                    "image": "https://d1ralsognjng37.cloudfront.net/7f065ef0-5a85-422e-9915-12ea5f98afc9.jpeg",
+                    "price": 2.9
+                },
+                {
+                    "name": "Cacahuète bénenuts",
+                    "image": "https://d1ralsognjng37.cloudfront.net/7fbd78ca-c4e2-434c-bec0-9df3ab04f379.jpeg",
+                    "price": 2.9
+                }
+            ]
+        },
+        {
+            "name": "Boissons",
+            "products": []
+        },
+        {
+            "name": "Sucreries",
+            "products": []
+        },
+        {
+            "name": "Goodies",
+            "products": []
+        }
+    ]
+}

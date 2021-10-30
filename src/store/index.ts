@@ -11,16 +11,18 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import { reducer as cart } from 'services/cart';
+import { reducer as orders } from 'services/orders';
 
 const reducers = combineReducers({
     cart,
+    orders
 });
 
 const persistedReducer = persistReducer(
     {
         key: 'eventfood',
         storage,
-        whitelist: ['cart'],
+        whitelist: ['cart', 'orders'],
     },
     reducers
 );

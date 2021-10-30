@@ -1,5 +1,3 @@
-import { ReactElement } from 'react';
+import HomeScreen from 'screens/home';
 
-export default function Index(): ReactElement {
-    return <div>hello world</div>;
-}
+export default HomeScreen;
