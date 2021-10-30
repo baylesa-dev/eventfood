@@ -11,13 +11,13 @@ const slice = createSlice({
         addNewOrder: (state, { payload }: PayloadAction<{ products: Product[], promoCode?: string, id: number }>) => {
             const time = new Date().toISOString();
             state.orders = [
-                ...state.orders,
                 {
                     time,
                     id: payload.id,
                     products: payload.products,
                     promoCode: payload.promoCode
-                }
+                },
+                ...state.orders
             ]
         }
     },
