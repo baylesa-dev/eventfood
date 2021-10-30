@@ -159,7 +159,7 @@ export default function Admin(): ReactElement {
                             <S.OrderCard key={value.id}>
                                 <S.OrderCardDetails>
                                     <S.OrderCardInfo>Commande n°{value.id}</S.OrderCardInfo>
-                                    <S.OrderCardInfo>Commande n°{value.total}</S.OrderCardInfo>
+                                    <S.OrderCardInfo>TOTAL {value.total} €</S.OrderCardInfo>
 
                                     <S.OrderCardProductsList>
                                         {value.articles?.map((article, index) => <S.OrderCardProductItem key={`${value.id}-${article}-${index}`}><b>1x</b> {article}</S.OrderCardProductItem>)}
