@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import CartIcon from 'icons/CartIcon';
 import FoodIcon from 'icons/FoodIcon';
 import ReceiptIcon from 'icons/ReceiptIcon';
-import SearchIcon from 'icons/SearchIcon';
 import { useAppSelector } from 'store/hooks';
 
 import * as S from './styles';
@@ -23,15 +22,6 @@ export default function AppBar(): ReactElement {
                 <FoodIcon
                     size={20}
                     color={pathname === "/" ? 'primary.main' : 'text'}
-                />
-            </S.Link>
-            <S.Link
-                key="/search"
-                onClick={() => push("/search")}
-                active={pathname === "/search"}>
-                <SearchIcon
-                    size={20}
-                    color={pathname === "/search" ? 'primary.main' : 'text'}
                 />
             </S.Link>
             <S.Link
